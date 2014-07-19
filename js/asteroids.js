@@ -3,8 +3,18 @@ var context = canvas.getContext('2d')
 // context.fillStyle = "#000000"
 var shipRotation = 180
 var x, y, width, height;
-var shipXCoord = canvas.height / 2
-var shipYCoord = canvas.width / 2
+var rotateLeft = false
+var rotateRight = false
+var moveForward = false
+
+var spaceShip = {
+  xCoord: canvas.height/2,
+  yCoord: canvas.width/2,
+  transxOffset: 13,
+  transyOffset: 13,
+  radius: 12
+}
+
 
 x = 0;
 y = 0;
@@ -79,7 +89,7 @@ function drawInterval(){
     drawAsteroid(400, 400, 46);
     drawRectangle(x, y, width, height);
     drawMissile()
-    drawShip(shipXCoord, shipYCoord, shipRotation);
+    drawShip(spaceShip.xCoord, spaceShip.yCoord, shipRotation);
     checkRotation()
     checkMove()
     moveRect()
@@ -88,8 +98,8 @@ function drawInterval(){
 
 var checkMove = function(){
   if(moveForward){
-    shipXCoord += Math.cos(shipRotation*(Math.PI/180))
-    shipYCoord += Math.sin(shipRotation*(Math.PI/180))
+    spaceShip.xCoord += Math.cos(shipRotation*(Math.PI/180))
+    spaceShip.yCoord += Math.sin(shipRotation*(Math.PI/180))
   }
 }
 
@@ -100,10 +110,6 @@ var checkRotation = function(){
     shipRotation += 2
   }
 }
-
-var rotateLeft = false
-var rotateRight = false
-var moveForward = false
 
 function Asteroid (xCoord, yCoord, radius) {
   this.xCoord = xCoord;
@@ -117,13 +123,7 @@ function LaserBeam (xCoord, yCoord, radius) {
   this.radius = radius;
 }
 
-var spaceShip = {
-  xCoord: 400,
-  yCoord: 400,
-  transxOffset: 13,
-  transyOffset: 13,
-  radius: 12
-}
+
 
 
 $('document').ready(function(){
