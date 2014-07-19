@@ -14,8 +14,13 @@ context.fillRect(x, y, width, height)
 
 
 var moveRect = function(){
+  if(x < 600){
   x += 1;
   y += 1;
+
+  } else
+  { x = -width;
+    y = -height;}
 }
 
 function drawInterval(){
@@ -23,6 +28,6 @@ function drawInterval(){
     context.clearRect ( 0 , 0 , 600 , 600 );
     draw()
     moveRect()
-  }, 10)
+  }, 5)
 }
 
