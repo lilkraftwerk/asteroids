@@ -1,7 +1,7 @@
 var canvas = document.getElementById('tutorial')
 var context = canvas.getContext('2d')
 // context.fillStyle = "#000000"
-
+var shipRotation = 0
 var x, y, width, height;
 
 x = 0;
@@ -78,14 +78,27 @@ function drawInterval(){
     drawRectangle(x, y, width, height);
     drawMissile()
     drawShip(canvas.width/2, canvas.height/2, 32);
-    degree += 1
+    // Ship()
+
     moveRect()
   }, 5)
 }
 
-
-window.onload = function(){
+$('document').ready(function(){
   drawInterval()
+  $('body').keydown(function(e) {
+    console.log(e)
+    if (e.keycode == 37) {
+      console.log("left key")
+      shipRotation -= 5
+    }
+  })
+})
 
-}
+// function rotateShip() {
+
+
+//   });
+// }
+
 
