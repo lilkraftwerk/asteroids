@@ -16,6 +16,13 @@ function drawRectangle(xCoord, yCoord, width, height){
   context.closePath()
 }
 
+function drawMissile(){
+  context.beginPath()
+  context.fillStyle = "#00FF00"
+  context.arc(175, 111, 5, 0, Math.PI * 2)
+  context.fill()
+  context.closePath()
+}
 
 function drawAsteroidOld() {
   context.beginPath()
@@ -35,8 +42,7 @@ function drawAsteroid(xCoord, yCoord, radius) {
 
 function drawShip() {
   context.beginPath()
-context.fillStyle = "#FF0000"
-
+  context.fillStyle = "#FF0000"
   context.moveTo(100,100)
   context.lineTo(100,126)
   context.lineTo(135,113)
@@ -60,6 +66,7 @@ function drawInterval(){
     drawAsteroid(200, 200, 23);
     drawAsteroid(400, 400, 46);
     drawRectangle(x, y, width, height);
+    drawMissile()
     drawShip();
     moveRect()
   }, 5)
