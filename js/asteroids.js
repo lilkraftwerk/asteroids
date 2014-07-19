@@ -1,18 +1,17 @@
 var canvas = document.getElementById('tutorial')
 var context = canvas.getContext('2d')
 // context.fillStyle = "#000000"
-var shipRotation = 180
 var x, y, width, height;
 var rotateLeft = false
 var rotateRight = false
 var moveForward = false
-
 var spaceShip = {
   xCoord: canvas.height/2,
   yCoord: canvas.width/2,
   transxOffset: 13,
   transyOffset: 13,
-  radius: 12
+  radius: 12,
+  rotation: 180
 }
 
 
@@ -75,7 +74,6 @@ var moveRect = function(){
   if(x < canvas.width){
   x += 1;
   y += 1;
-
   } else
   { x = -width;
     y = -height;}
@@ -89,7 +87,7 @@ function drawInterval(){
     drawAsteroid(400, 400, 46);
     drawRectangle(x, y, width, height);
     drawMissile()
-    drawShip(spaceShip.xCoord, spaceShip.yCoord, shipRotation);
+    drawShip(spaceShip.xCoord, spaceShip.yCoord, spaceShip.rotation);
     checkRotation()
     checkMove()
     moveRect()
@@ -98,16 +96,16 @@ function drawInterval(){
 
 var checkMove = function(){
   if(moveForward){
-    spaceShip.xCoord += Math.cos(shipRotation*(Math.PI/180))
-    spaceShip.yCoord += Math.sin(shipRotation*(Math.PI/180))
+    spaceShip.xCoord += Math.cos(spaceShip.rotation * (Math.PI/180))
+    spaceShip.yCoord += Math.sin(spaceShip.rotation * (Math.PI/180))
   }
 }
 
 var checkRotation = function(){
   if (rotateLeft){
-    shipRotation -= 2
+    spaceShip.rotation -= 2
   } else if (rotateRight) {
-    shipRotation += 2
+    spaceShip.rotation += 2
   }
 }
 
@@ -124,8 +122,6 @@ function LaserBeam (xCoord, yCoord, radius) {
 }
 
 
-
-
 $('document').ready(function(){
   drawInterval()
   $('body').on("keydown", function(event) {
@@ -139,7 +135,13 @@ $('document').ready(function(){
     } else if (event.which == 38) {
       console.log("key up pressed")
       moveForward = true
+    } else if (event.which == 32) {
+      console.log("space key")
+      fireMissile()
     }
+
+
+
   })
   $('body').on("keyup", function(event) {
     console.log(event.which)
