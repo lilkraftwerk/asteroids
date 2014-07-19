@@ -105,6 +105,27 @@ var rotateLeft = false
 var rotateRight = false
 var moveForward = false
 
+function Asteroid (xCoord, yCoord, radius) {
+  this.xCoord = xCoord;
+  this.yCoord = yCoord;
+  this.radius = radius;
+}
+
+function LaserBeam (xCoord, yCoord, radius) {
+  this.xCoord = xCoord;
+  this.yCoord = yCoord;
+  this.radius = radius;
+}
+
+var spaceShip = {
+  xCoord: 400,
+  yCoord: 400,
+  transxOffset: 13,
+  transyOffset: 13,
+  radius: 12
+}
+
+
 $('document').ready(function(){
   drawInterval()
   $('body').on("keydown", function(event) {
