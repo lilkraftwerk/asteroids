@@ -40,14 +40,23 @@ function drawAsteroid(xCoord, yCoord, radius) {
   context.closePath()
 }
 
-function drawShip() {
+function drawShip(xCoord, yCoord, rotation) {
+  context.save()
+  var shipHeight = 26
+  var shipWidth = 35
+  var transx = xCoord + 13
+  var transy = yCoord + 13
+  context.translate(transx, transy)
+  context.rotate((Math.PI / 180) * rotation)
+  context.translate(-transx, -transy)
   context.beginPath()
   context.fillStyle = "#FF0000"
-  context.moveTo(100,100)
-  context.lineTo(100,126)
-  context.lineTo(135,113)
+  context.moveTo(xCoord, yCoord)
+  context.lineTo(xCoord, yCoord + shipHeight)
+  context.lineTo(xCoord + shipWidth, yCoord + (shipHeight / 2))
   context.fill()
   context.closePath()
+  context.restore()
 }
 
 var moveRect = function(){
@@ -59,6 +68,7 @@ var moveRect = function(){
   { x = -width;
     y = -height;}
 }
+var degree = 0
 
 function drawInterval(){
   setInterval(function(){
@@ -67,7 +77,8 @@ function drawInterval(){
     drawAsteroid(400, 400, 46);
     drawRectangle(x, y, width, height);
     drawMissile()
-    drawShip();
+    drawShip(canvas.width/2, canvas.height/2, 32);
+    degree += 1
     moveRect()
   }, 5)
 }
