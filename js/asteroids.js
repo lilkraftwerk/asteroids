@@ -37,9 +37,9 @@ function drawShip() {
   context.beginPath()
 context.fillStyle = "#FF0000"
 
-  context.moveTo(75,50)
-  context.lineTo(100,75)
-  context.lineTo(100,25)
+  context.moveTo(100,100)
+  context.lineTo(100,126)
+  context.lineTo(135,113)
   context.fill()
   context.closePath()
 }
