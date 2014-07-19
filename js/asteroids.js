@@ -79,7 +79,6 @@ var moveRect = function(){
   { x = -width;
     y = -height;}
 }
-var degree = 0
 
 function drawInterval(){
   setInterval(function(){
