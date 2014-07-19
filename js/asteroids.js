@@ -1,8 +1,10 @@
 var canvas = document.getElementById('tutorial')
 var context = canvas.getContext('2d')
 // context.fillStyle = "#000000"
-var shipRotation = 0
+var shipRotation = 180
 var x, y, width, height;
+var shipXCoord = canvas.height / 2
+var shipYCoord = canvas.width / 2
 
 x = 0;
 y = 0;
@@ -77,28 +79,60 @@ function drawInterval(){
     drawAsteroid(400, 400, 46);
     drawRectangle(x, y, width, height);
     drawMissile()
-    drawShip(canvas.width/2, canvas.height/2, 32);
-    // Ship()
-
+    drawShip(shipXCoord, shipYCoord, shipRotation);
+    checkRotation()
+    checkMove()
     moveRect()
   }, 5)
 }
 
+var checkMove = function(){
+  if(moveForward){
+    shipXCoord += Math.cos(shipRotation*(Math.PI/180))
+    shipYCoord += Math.sin(shipRotation*(Math.PI/180))
+  }
+}
+
+var checkRotation = function(){
+  if (rotateLeft){
+    shipRotation -= 2
+  } else if (rotateRight) {
+    shipRotation += 2
+  }
+}
+
+var rotateLeft = false
+var rotateRight = false
+var moveForward = false
+
 $('document').ready(function(){
   drawInterval()
-  $('body').keydown(function(e) {
-    console.log(e)
-    if (e.keycode == 37) {
-      console.log("left key")
-      shipRotation -= 5
+  $('body').on("keydown", function(event) {
+    console.log(event.which)
+    if (event.which == 37) {
+      rotateLeft = true
+      rotateRight = false
+    } else if (event.which == 39){
+      rotateRight = true
+      rotateLeft = false
+    } else if (event.which == 38) {
+      console.log("key up pressed")
+      moveForward = true
+    }
+  })
+  $('body').on("keyup", function(event) {
+    console.log(event.which)
+    if (event.which == 37) {
+      rotateLeft = false
+    } else if (event.which == 39){
+      rotateRight = false
+    } else if (event.which == 38) {
+      moveForward = false
     }
   })
 })
 
-// function rotateShip() {
-
-
-//   });
-// }
+// on keydown, start interval that increments or decrements rotation
+// on keyup, clear interval that increments or decrements rotation
 
 
