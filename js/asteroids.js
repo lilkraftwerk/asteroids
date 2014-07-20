@@ -143,7 +143,7 @@ function Missile (xCoord, yCoord, rotation) {
 var missiles = []
 
 var fireMissile = function(){
-  missiles.push(window["missile" + String(missiles.length + 1)] = new Missile(spaceShip.xCoord+100, spaceShip.yCoord+100, spaceShip.rotation))
+  missiles.push(window["missile" + String(missiles.length + 1)] = new Missile(spaceShip.xCoord + 17, spaceShip.yCoord + 13, spaceShip.rotation))
 }
 
 
