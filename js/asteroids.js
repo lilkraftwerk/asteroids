@@ -109,7 +109,18 @@ var moveAllMissiles = function(){
   }
 }
 
+var checkMissilews
+
 var checkMove = function(){
+  if(spaceShip.xCoord > canvas.width){
+    spaceShip.xCoord -= canvas.width
+  } else if (spaceShip.xCoord < 0){
+    spaceShip.xCoord += canvas.width
+  } else if (spaceShip.yCoord > canvas.height){
+    spaceShip.yCoord -= canvas.height
+  } else if (spaceShip.yCoord < 0) {
+    spaceShip.yCoord += canvas.height
+  }
   if(moveForward){
     spaceShip.xCoord += Math.cos(spaceShip.rotation * (Math.PI/180))
     spaceShip.yCoord += Math.sin(spaceShip.rotation * (Math.PI/180))
@@ -117,8 +128,18 @@ var checkMove = function(){
 }
 
 var moveMissile = function(missile){
+  if(missile.xCoord > canvas.width){
+    missile.xCoord -= canvas.width
+  } else if (missile.xCoord < 0){
+    missile.xCoord += canvas.width
+  } else if (missile.yCoord > canvas.height){
+    missile.yCoord -= canvas.height
+  } else if (missile.yCoord < 0) {
+    missile.yCoord += canvas.height
+  }
   missile.xCoord += (Math.cos(missile.rotation * (Math.PI/180)))*1.8
   missile.yCoord += (Math.sin(missile.rotation * (Math.PI/180)))*1.8
+  missile.frames += 1
 }
 
 var checkRotation = function(){
