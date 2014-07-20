@@ -131,6 +131,7 @@ function checkAsteroids() {
         console.log('made it here');
         asteroids[i].splitAsteroid();
         asteroids.splice(i, 1);
+        missiles.splice(j, 1)
       }
     }
   }
@@ -209,17 +210,18 @@ var checkRotation = function(){
   }
 }
 
-function Asteroid (xCoord, yCoord, radius) {
+function Asteroid (xCoord, yCoord, radius, rotation) {
   this.xCoord = xCoord;
   this.yCoord = yCoord;
   this.radius = radius;
+  this.rotation = Math.floor(Math.random() * 360);
 }
 
 Asteroid.prototype = {
   constructor: Asteroid,
   splitAsteroid: function() {
     if(this.radius === 46) {
-      asteroids.push(new Asteroid(this.xCoord + 100, this.yCoord, this.radius / 2), new Asteroid(this.xCoord -100, this.yCoord, this.radius / 2 ));
+      asteroids.push(new Asteroid(this.xCoord + (this.radius / 2), this.yCoord, this.radius / 2), new Asteroid(this.xCoord -(this.radius / 2), this.yCoord, this.radius / 2 ));
     }
   }
 }
