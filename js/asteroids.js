@@ -78,8 +78,8 @@ function collisionDetection(test1, test2) {
   var dx = test1.xCoord - test2.xCoord;
   var dy = test1.yCoord - test2.yCoord;
   var distance = Math.sqrt(dx * dx + dy * dy);
-
-  if (distance < test1.radius + test2.radius) {
+  if (distance < test1.radius + 5) {
+    console.log('colliding')
     return true;
   }
 }
@@ -92,26 +92,21 @@ function asteroidLoop() {
 }
 
 function checkAsteroids() {
-  // for (var i = 0; i < asteroids.length; i++) {
-  //   console.log('asteroidsCount: ' + asteroidsCount + '\nlength: ' + asteroids.length);
-  //   for(var j = 0; j < missiles.length; j++) {
-  //     if (collisionDetection(asteroids[i], missiles[i])) {
-  //       console.log('made it here');
-  //       newAsteroidX = asteroids[i].xCoord;
-  //       newAsteroidY = asteroids[i].yCoord;
-  //       newAsteroidR = asteroids[i].radius;
-  //       asteroids.splice(i, 1);
-
-  //     }
-  //   }
+  for (var i = 0; i < asteroids.length; i++) {
+    for(var j = 0; j < missiles.length; j++) {
+      if (collisionDetection(asteroids[i], missiles[j])) {
+        console.log('made it here');
+        asteroids[i].splitAsteroid();
+        asteroids.splice(i, 1);
+      }
+    }
+  }
 }
 
 
 function drawInterval(){
   setInterval(function(){
     context.clearRect ( 0 , 0 , canvas.width , canvas.height );
-    // drawAsteroid(370, 370, 23);
-    // drawAsteroid(400, 400, 46);
     // loop through each asteroid and see if it has been hit, will know index of asteroid to be deleted, call split asteroid on that object, remove other object
     asteroidLoop();
     // collisionDetection(asteroid1, asteroid2);
