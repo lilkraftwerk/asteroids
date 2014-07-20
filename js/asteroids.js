@@ -86,7 +86,7 @@ function collisionDetection(test1, test2) {
   var distance = Math.sqrt(dx * dx + dy * dy);
 
   if (distance < test1.radius + test2.radius) {
-    console.log('it works!');
+    // console.log('it works!');
   }
 }
 
@@ -95,6 +95,7 @@ function drawInterval(){
     context.clearRect ( 0 , 0 , canvas.width , canvas.height );
     // drawAsteroid(370, 370, 23);
     // drawAsteroid(400, 400, 46);
+    // loop through each asteroid and see if it has been hit, will know index of asteroid to be deleted, call split asteroid on that object, remove other object
     collisionDetection(asteroid1, asteroid2);
     drawAsteroid(asteroid1.xCoord, asteroid1.yCoord, asteroid1.radius);
     drawAsteroid(asteroid2.xCoord, asteroid2.yCoord, asteroid2.radius);
