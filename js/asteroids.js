@@ -80,11 +80,24 @@ var moveRect = function(){
     y = -height;}
 }
 
+function collisionDetection(test1, test2) {
+  var dx = test1.xCoord - test2.xCoord;
+  var dy = test1.yCoord - test2.yCoord;
+  var distance = Math.sqrt(dx * dx + dy * dy);
+
+  if (distance < test1.radius + test2.radius) {
+    console.log('it works!');
+  }
+}
+
 function drawInterval(){
   setInterval(function(){
     context.clearRect ( 0 , 0 , canvas.width , canvas.height );
-    drawAsteroid(200, 200, 23);
-    drawAsteroid(400, 400, 46);
+    // drawAsteroid(370, 370, 23);
+    // drawAsteroid(400, 400, 46);
+    collisionDetection(asteroid1, asteroid2);
+    drawAsteroid(asteroid1.xCoord, asteroid1.yCoord, asteroid1.radius);
+    drawAsteroid(asteroid2.xCoord, asteroid2.yCoord, asteroid2.radius);
     drawRectangle(x, y, width, height);
     drawAllMissiles()
     moveAllMissiles()
@@ -134,6 +147,12 @@ function Asteroid (xCoord, yCoord, radius) {
   this.radius = radius;
 }
 
+Asteroid.prototype = {
+  constructor: Asteroid,
+  splitAsteroid: function() {
+
+  }
+}
 function Missile (xCoord, yCoord, rotation) {
   this.xCoord = xCoord;
   this.yCoord = yCoord;
@@ -152,6 +171,10 @@ var fireMissile = function(){
 
 
 $('document').ready(function(){
+  asteroid1 = new Asteroid(370, 370, 23);
+  asteroid2 = new Asteroid(400, 400, 46);
+
+
   drawInterval()
   $('body').on("keydown", function(event) {
     console.log(event.which)
