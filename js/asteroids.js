@@ -1,17 +1,17 @@
 var canvas = document.getElementById('tutorial')
 var context = canvas.getContext('2d')
-// context.fillStyle = "#000000"
 var x, y, width, height;
 var rotateLeft = false
 var rotateRight = false
 var moveForward = false
+var level = 1
 var missileCooldown = 0
 var spaceShip = {
   xCoord: canvas.height/2,
   yCoord: canvas.width/2,
   transxOffset: 13,
   transyOffset: 13,
-  radius: 12,
+  radius: 20,
   rotation: 180
 }
 
@@ -47,7 +47,6 @@ function drawSpaceshipImage(xCoord, yCoord, rotation) {   context.save()
   var transx = xCoord + 13
   var transy = yCoord + 13
   context.translate(transx, transy)
-
   context.rotate((Math.PI / 180) * rotation)
   context.translate(-transx, -transy)
   context.beginPath()
@@ -133,6 +132,14 @@ function moveAsteroid(asteroid){
   asteroid.yCoord += (Math.sin(asteroid.rotation * (Math.PI/180)))*1.8
 }
 
+function checkShipCollission(){
+  for (var i = 0; i < asteroids.length; i++) {
+    if (collisionDetection(asteroids[i], spaceShip)) {
+        gameOver()
+    }
+  }
+}
+
 function checkAsteroids() {
   for (var i = 0; i < asteroids.length; i++) {
     for(var j = 0; j < missiles.length; j++) {
@@ -148,17 +155,26 @@ function checkAsteroids() {
 
 
 function drawInterval(){
-  setInterval(function(){
     context.clearRect ( 0 , 0 , canvas.width , canvas.height );
     asteroidLoop();
     drawRectangle(x, y, width, height);
     missileLoop()
     drawSpaceshipImage(spaceShip.xCoord, spaceShip.yCoord, spaceShip.rotation);
     checkRotation()
+    checkShipCollission()
     missileCooldown -= 1
     checkMove()
     moveRect()
-  }, 5)
+    checkLevelEnd()
+}
+
+
+
+var checkLevelEnd = function(){
+  if(asteroids.length == 0){
+    level += 1
+    startLevel(level)
+  }
 }
 
 var missileLoop = function(){
@@ -207,6 +223,7 @@ var moveMissile = function(missile){
   missile.frames += 1
 }
 
+
 var checkRotation = function(){
   if (rotateLeft){
     spaceShip.rotation -= 2
@@ -248,12 +265,36 @@ var fireMissile = function(){
   }
 }
 
+var startLevel = function(level){
+  for(i = 0; i < level; i++){
+    var randomXCoord = getRandomStartCoordinate()
+    var randomYCoord = getRandomStartCoordinate()
+    var randomRotation = Math.floor(Math.random() * 360)
+    asteroids.push(new Asteroid(randomXCoord, randomYCoord, 46, randomRotation))
+  }
+}
 
+var gameOver = function(){
+  $("canvas").hide()
+  $("canvas-container").html("GAME OVER")
+}
+
+var getRandomStartCoordinate = function(){
+  var randomCoord = Math.floor(Math.random() * 360)
+  var flipACoin = Math.floor(Math.random() * 2)
+  if(flipACoin == 1) {
+    return -randomCoord
+  } else{
+    return randomCoord
+  }
+}
 $('document').ready(function(){
-  asteroids.push(new Asteroid(200, 200, 46), new Asteroid(400, 400, 46));
-
-
+var gameInterval = setInterval(function(){
   drawInterval()
+}, 5)
+
+startLevel(1)
+
   $('body').on("keydown", function(event) {
     if (event.which == 37) {
       rotateLeft = true
