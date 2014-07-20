@@ -30,6 +30,38 @@ function drawRectangle(xCoord, yCoord, width, height){
   context.closePath()
 }
 
+function drawAsteroidImage(xCoord, yCoord, radius) {
+  var img = document.getElementById("asteroid")
+  context.beginPath()
+  context.fillStyle = "#FF00FF"
+  context.drawImage(img, xCoord, yCoord)
+  context.fill()
+  context.closePath()
+}
+
+
+function drawSpaceshipImage(xCoord, yCoord, rotation) {   context.save()
+  var img = document.getElementById("spaceship");
+  var shipHeight = 26
+  var shipWidth = 35
+  var transx = xCoord + 13
+  var transy = yCoord + 13
+  context.translate(transx, transy)
+
+  context.rotate((Math.PI / 180) * rotation)
+  context.translate(-transx, -transy)
+  context.beginPath()
+  // context.fillStyle = "#FF0000"
+  // context.moveTo(xCoord, yCoord)
+  // context.lineTo(xCoord, yCoord + shipHeight)
+  // context.lineTo(xCoord + shipWidth, yCoord + (shipHeight / 2))
+  // context.fill()
+  context.drawImage(img,xCoord, yCoord-10)
+
+  context.closePath()
+  context.restore()
+}
+
 function drawMissile(missile){
   context.beginPath()
   context.fillStyle = "#00FF00"
@@ -45,6 +77,7 @@ function drawAsteroid(asteroid) {
   context.fill()
   context.closePath()
 }
+
 
 function drawShip(xCoord, yCoord, rotation) {
   context.save()
@@ -114,7 +147,7 @@ function drawInterval(){
     // drawAsteroid(asteroid2.xCoord, asteroid2.yCoord, asteroid2.radius);
     drawRectangle(x, y, width, height);
     missileLoop()
-    drawShip(spaceShip.xCoord, spaceShip.yCoord, spaceShip.rotation);
+    drawSpaceshipImage(spaceShip.xCoord, spaceShip.yCoord, spaceShip.rotation);
     checkRotation()
     missileCooldown -= 1
     checkMove()
@@ -123,24 +156,19 @@ function drawInterval(){
 }
 
 var missileLoop = function(){
+  var validMissiles = []
    for(i = 0; i < missiles.length; i++){
     moveMissile(missiles[i])
     drawMissile(missiles[i])
-  }
-  var newMissileArray = []
-   for(i = 0; i < missiles.length; i++){
-    if(missiles[i].frames < 400){
-      newMissileArray.push(missiles[i])
     }
+    for(i=0; i < missiles.length; i++){
+      if(missiles[i].frames < 400){
+        validMissiles.push(missiles[i])
+      }
+    }
+    missiles = validMissiles
   }
-  missiles = newMissileArray
-}
 
-var checkMissileFrames = function(missile){
-  if(missile.frames > 1000){
-    missile = undefined
-  }
-}
 
 var checkMove = function(){
   if(spaceShip.xCoord > canvas.width){
@@ -206,8 +234,9 @@ var missiles = []
 
 var fireMissile = function(){
   if(missileCooldown <= 0){
-  missiles.push(window["missile" + String(missiles.length + 1)] = new Missile(spaceShip.xCoord + 17, spaceShip.yCoord + 13, spaceShip.rotation))
-  missileCooldown = 100
+  missiles.push(new Missile(spaceShip.xCoord + 17, spaceShip.yCoord + 13, spaceShip.rotation))
+
+  missileCooldown = 50
   }
 }
 
@@ -218,7 +247,6 @@ $('document').ready(function(){
 
   drawInterval()
   $('body').on("keydown", function(event) {
-    console.log(event.which)
     if (event.which == 37) {
       rotateLeft = true
       rotateRight = false
@@ -226,10 +254,8 @@ $('document').ready(function(){
       rotateRight = true
       rotateLeft = false
     } else if (event.which == 38) {
-      console.log("key up pressed")
       moveForward = true
     } else if (event.which == 32) {
-      console.log("space key")
       fireMissile()
     }
 
@@ -237,7 +263,6 @@ $('document').ready(function(){
 
   })
   $('body').on("keyup", function(event) {
-    console.log(event.which)
     if (event.which == 37) {
       rotateLeft = false
     } else if (event.which == 39){
