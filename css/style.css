@@ -2,8 +2,14 @@
 canvas {
   border: 1px solid black;
   background-image:url('img/starfield.jpg');
+  margin-left: 25%;
+
 }
 
 #hidden-images {
   display:none;
+}
+
+#canvas-container {
+  width: 100%;
 }
