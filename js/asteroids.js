@@ -97,24 +97,17 @@ function drawInterval(){
 }
 
 var missileLoop = function(){
+  var validMissiles = []
    for(i = 0; i < missiles.length; i++){
     moveMissile(missiles[i])
     drawMissile(missiles[i])
-  }
-  var newMissileArray = []
-   for(i = 0; i < missiles.length; i++){
-    if(missiles[i].frames < 400){
-      newMissileArray.push(missiles[i])
+     if(missiles[i].frames < 400){
+      validMissiles.push(missiles[i])
+    }
+  missiles = validMissiles
     }
   }
-  missiles = newMissileArray
-}
 
-var checkMissileFrames = function(missile){
-  if(missile.frames > 1000){
-    missile = undefined
-  }
-}
 
 var checkMove = function(){
   if(spaceShip.xCoord > canvas.width){
@@ -172,7 +165,7 @@ var missiles = []
 
 var fireMissile = function(){
   if(missileCooldown <= 0){
-  missiles.push(window["missile" + String(missiles.length + 1)] = new Missile(spaceShip.xCoord + 17, spaceShip.yCoord + 13, spaceShip.rotation))
+  missiles.push(new Missile(spaceShip.xCoord + 17, spaceShip.yCoord + 13, spaceShip.rotation))
   missileCooldown = 100
   }
 }
