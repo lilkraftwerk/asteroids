@@ -87,8 +87,7 @@ function drawInterval(){
     drawAsteroid(200, 200, 23);
     drawAsteroid(400, 400, 46);
     drawRectangle(x, y, width, height);
-    drawAllMissiles()
-    moveAllMissiles()
+    missileLoop()
     drawShip(spaceShip.xCoord, spaceShip.yCoord, spaceShip.rotation);
     checkRotation()
     missileCooldown -= 1
@@ -97,19 +96,25 @@ function drawInterval(){
   }, 5)
 }
 
-var drawAllMissiles = function(){
-  for(i = 0; i < missiles.length; i++){
+var missileLoop = function(){
+   for(i = 0; i < missiles.length; i++){
+    moveMissile(missiles[i])
     drawMissile(missiles[i])
   }
+  var newMissileArray = []
+   for(i = 0; i < missiles.length; i++){
+    if(missiles[i].frames < 400){
+      newMissileArray.push(missiles[i])
+    }
+  }
+  missiles = newMissileArray
 }
 
-var moveAllMissiles = function(){
-    for(i = 0; i < missiles.length; i++){
-    moveMissile(missiles[i])
+var checkMissileFrames = function(missile){
+  if(missile.frames > 1000){
+    missile = undefined
   }
 }
-
-var checkMissilews
 
 var checkMove = function(){
   if(spaceShip.xCoord > canvas.width){
