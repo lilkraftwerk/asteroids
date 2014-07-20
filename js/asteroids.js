@@ -5,6 +5,7 @@ var x, y, width, height;
 var rotateLeft = false
 var rotateRight = false
 var moveForward = false
+var missileCooldown = 0
 var spaceShip = {
   xCoord: canvas.height/2,
   yCoord: canvas.width/2,
@@ -90,6 +91,7 @@ function drawInterval(){
     moveAllMissiles()
     drawShip(spaceShip.xCoord, spaceShip.yCoord, spaceShip.rotation);
     checkRotation()
+    missileCooldown -= 1
     checkMove()
     moveRect()
   }, 5)
@@ -115,8 +117,8 @@ var checkMove = function(){
 }
 
 var moveMissile = function(missile){
-  missile.xCoord += (Math.cos(missile.rotation * (Math.PI/180)))*1.2
-  missile.yCoord += (Math.sin(missile.rotation * (Math.PI/180)))*1.2
+  missile.xCoord += (Math.cos(missile.rotation * (Math.PI/180)))*1.8
+  missile.yCoord += (Math.sin(missile.rotation * (Math.PI/180)))*1.8
 }
 
 var checkRotation = function(){
@@ -143,7 +145,10 @@ function Missile (xCoord, yCoord, rotation) {
 var missiles = []
 
 var fireMissile = function(){
+  if(missileCooldown <= 0){
   missiles.push(window["missile" + String(missiles.length + 1)] = new Missile(spaceShip.xCoord + 17, spaceShip.yCoord + 13, spaceShip.rotation))
+  missileCooldown = 100
+  }
 }
 
 
