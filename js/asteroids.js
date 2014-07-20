@@ -33,7 +33,7 @@ function drawRectangle(xCoord, yCoord, width, height){
 function drawAsteroidImage(xCoord, yCoord, radius) {
   var img = document.getElementById("asteroid")
   context.beginPath()
-  context.fillStyle = "#FF00FF"
+  context.fillStyle = "#00e500"
   context.drawImage(img, xCoord, yCoord)
   context.fill()
   context.closePath()
@@ -51,20 +51,14 @@ function drawSpaceshipImage(xCoord, yCoord, rotation) {   context.save()
   context.rotate((Math.PI / 180) * rotation)
   context.translate(-transx, -transy)
   context.beginPath()
-  // context.fillStyle = "#FF0000"
-  // context.moveTo(xCoord, yCoord)
-  // context.lineTo(xCoord, yCoord + shipHeight)
-  // context.lineTo(xCoord + shipWidth, yCoord + (shipHeight / 2))
-  // context.fill()
   context.drawImage(img,xCoord, yCoord-10)
-
   context.closePath()
   context.restore()
 }
 
 function drawMissile(missile){
   context.beginPath()
-  context.fillStyle = "#EE00EE"
+  context.fillStyle = "#00e500"
   context.arc(missile.xCoord, missile.yCoord, 5, 0, Math.PI * 2)
   context.fill()
   context.closePath()
@@ -120,8 +114,23 @@ function collisionDetection(test1, test2) {
 function asteroidLoop() {
   checkAsteroids();
   for (var k = 0; k < asteroids.length; k++) {
+    moveAsteroid(asteroids[k])
     drawAsteroid(asteroids[k]);
   }
+}
+
+function moveAsteroid(asteroid){
+  if(asteroid.xCoord > canvas.width){
+    asteroid.xCoord -= canvas.width
+  } else if (asteroid.xCoord < 0){
+    asteroid.xCoord += canvas.width
+  } else if (asteroid.yCoord > canvas.height){
+    asteroid.yCoord -= canvas.height
+  } else if (asteroid.yCoord < 0) {
+    asteroid.yCoord += canvas.height
+  }
+  asteroid.xCoord += (Math.cos(asteroid.rotation * (Math.PI/180)))*1.8
+  asteroid.yCoord += (Math.sin(asteroid.rotation * (Math.PI/180)))*1.8
 }
 
 function checkAsteroids() {
@@ -141,11 +150,7 @@ function checkAsteroids() {
 function drawInterval(){
   setInterval(function(){
     context.clearRect ( 0 , 0 , canvas.width , canvas.height );
-    // loop through each asteroid and see if it has been hit, will know index of asteroid to be deleted, call split asteroid on that object, remove other object
     asteroidLoop();
-    // collisionDetection(asteroid1, asteroid2);
-    // drawAsteroid(asteroid1.xCoord, asteroid1.yCoord, asteroid1.radius);
-    // drawAsteroid(asteroid2.xCoord, asteroid2.yCoord, asteroid2.radius);
     drawRectangle(x, y, width, height);
     missileLoop()
     drawSpaceshipImage(spaceShip.xCoord, spaceShip.yCoord, spaceShip.rotation);
