@@ -21,6 +21,8 @@ y = 0;
 width = 100;
 height = 100;
 
+var asteroids = [];
+
 function drawRectangle(xCoord, yCoord, width, height){
   context.beginPath()
   context.fillStyle = "#0000FF"
@@ -36,18 +38,10 @@ function drawMissile(missile){
   context.closePath()
 }
 
-function drawAsteroidOld() {
+function drawAsteroid(asteroid) {
   context.beginPath()
   context.fillStyle = "#000000"
-  context.arc(200, 200, 23, 0, Math.PI * 2)
-  context.fill()
-  context.closePath()
-}
-
-function drawAsteroid(xCoord, yCoord, radius) {
-  context.beginPath()
-  context.fillStyle = "#000000"
-  context.arc(xCoord, yCoord, radius, 0, Math.PI * 2)
+  context.arc(asteroid.xCoord, asteroid.yCoord, asteroid.radius, 0, Math.PI * 2)
   context.fill()
   context.closePath()
 }
@@ -86,9 +80,32 @@ function collisionDetection(test1, test2) {
   var distance = Math.sqrt(dx * dx + dy * dy);
 
   if (distance < test1.radius + test2.radius) {
-    // console.log('it works!');
+    return true;
   }
 }
+
+function asteroidLoop() {
+  checkAsteroids();
+  for (var k = 0; k < asteroids.length; k++) {
+    drawAsteroid(asteroids[k]);
+  }
+}
+
+function checkAsteroids() {
+  // for (var i = 0; i < asteroids.length; i++) {
+  //   console.log('asteroidsCount: ' + asteroidsCount + '\nlength: ' + asteroids.length);
+  //   for(var j = 0; j < missiles.length; j++) {
+  //     if (collisionDetection(asteroids[i], missiles[i])) {
+  //       console.log('made it here');
+  //       newAsteroidX = asteroids[i].xCoord;
+  //       newAsteroidY = asteroids[i].yCoord;
+  //       newAsteroidR = asteroids[i].radius;
+  //       asteroids.splice(i, 1);
+
+  //     }
+  //   }
+}
+
 
 function drawInterval(){
   setInterval(function(){
@@ -96,9 +113,10 @@ function drawInterval(){
     // drawAsteroid(370, 370, 23);
     // drawAsteroid(400, 400, 46);
     // loop through each asteroid and see if it has been hit, will know index of asteroid to be deleted, call split asteroid on that object, remove other object
-    collisionDetection(asteroid1, asteroid2);
-    drawAsteroid(asteroid1.xCoord, asteroid1.yCoord, asteroid1.radius);
-    drawAsteroid(asteroid2.xCoord, asteroid2.yCoord, asteroid2.radius);
+    asteroidLoop();
+    // collisionDetection(asteroid1, asteroid2);
+    // drawAsteroid(asteroid1.xCoord, asteroid1.yCoord, asteroid1.radius);
+    // drawAsteroid(asteroid2.xCoord, asteroid2.yCoord, asteroid2.radius);
     drawRectangle(x, y, width, height);
     drawAllMissiles()
     moveAllMissiles()
@@ -151,7 +169,9 @@ function Asteroid (xCoord, yCoord, radius) {
 Asteroid.prototype = {
   constructor: Asteroid,
   splitAsteroid: function() {
-
+    if(this.radius === 46) {
+      asteroids.push(new Asteroid(this.xCoord + 100, this.yCoord, this.radius / 2), new Asteroid(this.xCoord -100, this.yCoord, this.radius / 2 ));
+    }
   }
 }
 function Missile (xCoord, yCoord, rotation) {
@@ -172,8 +192,7 @@ var fireMissile = function(){
 
 
 $('document').ready(function(){
-  asteroid1 = new Asteroid(370, 370, 23);
-  asteroid2 = new Asteroid(400, 400, 46);
+  asteroids.push(new Asteroid(200, 200, 46), new Asteroid(400, 400, 46));
 
 
   drawInterval()
