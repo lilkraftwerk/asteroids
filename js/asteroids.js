@@ -28,8 +28,17 @@ function drawRectangle(xCoord, yCoord, width, height){
   context.closePath()
 }
 
-function drawSpaceshipImage(xCoord, yCoord, rotation) {
-  context.save()
+function drawAsteroidImage(xCoord, yCoord, radius) {
+  var img = document.getElementById("asteroid")
+  context.beginPath()
+  context.fillStyle = "#FF00FF"
+  context.drawImage(img, xCoord, yCoord)
+  context.fill()
+  context.closePath()
+}
+
+
+function drawSpaceshipImage(xCoord, yCoord, rotation) {   context.save()
   var img = document.getElementById("spaceship");
   var shipHeight = 26
   var shipWidth = 35
@@ -75,6 +84,7 @@ function drawAsteroid(xCoord, yCoord, radius) {
   context.closePath()
 }
 
+
 function drawShip(xCoord, yCoord, rotation) {
   context.save()
   var shipHeight = 26
@@ -108,7 +118,7 @@ function drawInterval(){
   setInterval(function(){
     context.clearRect ( 0 , 0 , canvas.width , canvas.height );
     drawAsteroid(200, 200, 23);
-    drawAsteroid(400, 400, 46);
+    drawAsteroidImage(500, 500, 46);
     drawRectangle(x, y, width, height);
     missileLoop()
     drawSpaceshipImage(spaceShip.xCoord, spaceShip.yCoord, spaceShip.rotation);
