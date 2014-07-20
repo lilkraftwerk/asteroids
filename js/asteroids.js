@@ -27,10 +27,10 @@ function drawRectangle(xCoord, yCoord, width, height){
   context.closePath()
 }
 
-function drawMissile(){
+function drawMissile(missile){
   context.beginPath()
   context.fillStyle = "#00FF00"
-  context.arc(175, 111, 5, 0, Math.PI * 2)
+  context.arc(missile.xCoord, missile.yCoord, 5, 0, Math.PI * 2)
   context.fill()
   context.closePath()
 }
@@ -86,7 +86,8 @@ function drawInterval(){
     drawAsteroid(200, 200, 23);
     drawAsteroid(400, 400, 46);
     drawRectangle(x, y, width, height);
-    drawMissile()
+    drawAllMissiles()
+    moveAllMissiles()
     drawShip(spaceShip.xCoord, spaceShip.yCoord, spaceShip.rotation);
     checkRotation()
     checkMove()
@@ -94,11 +95,28 @@ function drawInterval(){
   }, 5)
 }
 
+var drawAllMissiles = function(){
+  for(i = 0; i < missiles.length; i++){
+    drawMissile(missiles[i])
+  }
+}
+
+var moveAllMissiles = function(){
+    for(i = 0; i < missiles.length; i++){
+    moveMissile(missiles[i])
+  }
+}
+
 var checkMove = function(){
   if(moveForward){
     spaceShip.xCoord += Math.cos(spaceShip.rotation * (Math.PI/180))
     spaceShip.yCoord += Math.sin(spaceShip.rotation * (Math.PI/180))
   }
+}
+
+var moveMissile = function(missile){
+  missile.xCoord += (Math.cos(missile.rotation * (Math.PI/180)))*1.2
+  missile.yCoord += (Math.sin(missile.rotation * (Math.PI/180)))*1.2
 }
 
 var checkRotation = function(){
@@ -115,10 +133,17 @@ function Asteroid (xCoord, yCoord, radius) {
   this.radius = radius;
 }
 
-function LaserBeam (xCoord, yCoord, radius) {
+function Missile (xCoord, yCoord, rotation) {
   this.xCoord = xCoord;
   this.yCoord = yCoord;
-  this.radius = radius;
+  this.rotation = rotation;
+  this.frames = 0;
+}
+
+var missiles = []
+
+var fireMissile = function(){
+  missiles.push(window["missile" + String(missiles.length + 1)] = new Missile(spaceShip.xCoord+100, spaceShip.yCoord+100, spaceShip.rotation))
 }
 
 
