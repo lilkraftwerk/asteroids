@@ -5,13 +5,14 @@ var rotateLeft = false
 var rotateRight = false
 var moveForward = false
 var level = 1
+var score = 0
 var missileCooldown = 0
 var spaceShip = {
   xCoord: canvas.height/2,
   yCoord: canvas.width/2,
   transxOffset: 13,
   transyOffset: 13,
-  radius: 20,
+  radius: 25,
   rotation: 180
 }
 
@@ -148,6 +149,7 @@ function checkAsteroids() {
         asteroids[i].splitAsteroid();
         asteroids.splice(i, 1);
         missiles.splice(j, 1)
+        score += 1
       }
     }
   }
@@ -157,7 +159,6 @@ function checkAsteroids() {
 function drawInterval(){
     context.clearRect ( 0 , 0 , canvas.width , canvas.height );
     asteroidLoop();
-    drawRectangle(x, y, width, height);
     missileLoop()
     drawSpaceshipImage(spaceShip.xCoord, spaceShip.yCoord, spaceShip.rotation);
     checkRotation()
@@ -165,7 +166,12 @@ function drawInterval(){
     missileCooldown -= 1
     checkMove()
     moveRect()
+    updateScore()
     checkLevelEnd()
+}
+
+var updateScore = function(){
+  $("#score").html(score + "000")
 }
 
 
@@ -275,8 +281,13 @@ var startLevel = function(level){
 }
 
 var gameOver = function(){
-  $("canvas").hide()
-  $("canvas-container").html("GAME OVER")
+  $("canvas").fadeOut(function() {
+    $("#canvas-container").fadeIn(function() {
+        $("#canvas-container").html("GAME OVER")
+      });
+
+    });
+
 }
 
 var getRandomStartCoordinate = function(){

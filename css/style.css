@@ -1,15 +1,40 @@
-
 canvas {
-  border: 1px solid black;
+  border: 3px solid white;
   background-image:url('img/starfield.jpg');
-  margin-left: 25%;
+}
 
+html {
+  background-color: #1F2627;
+  overflow: hidden;
 }
 
 #hidden-images {
   display:none;
 }
 
+#title{
+  color: white;
+  margin: 0;
+  text-align: center;
+  font-size: 4em;
+  font-family: 'Pacifico', cursive;
+  text-shadow: 3px 3px 0px red;
+}
+
+#score{
+  color: white;
+  text-align: center;
+  font-size: 1em;
+  font-family: 'Pacifico', cursive;
+  text-shadow: 3px 3px 0px red;
+}
+
+
 #canvas-container {
+  text-align: center;
+  font-size: 20em;
   width: 100%;
+  text-shadow: 2px 2px 2px red;
+  margin-left: auto;
+  margin-right: auto;
 }
