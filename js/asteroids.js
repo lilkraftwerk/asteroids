@@ -64,7 +64,7 @@ function drawSpaceshipImage(xCoord, yCoord, rotation) {   context.save()
 
 function drawMissile(missile){
   context.beginPath()
-  context.fillStyle = "#00FF00"
+  context.fillStyle = "#EE00EE"
   context.arc(missile.xCoord, missile.yCoord, 5, 0, Math.PI * 2)
   context.fill()
   context.closePath()
@@ -72,7 +72,7 @@ function drawMissile(missile){
 
 function drawAsteroid(asteroid) {
   context.beginPath()
-  context.fillStyle = "#000000"
+  context.fillStyle = "#EEEEE0"
   context.arc(asteroid.xCoord, asteroid.yCoord, asteroid.radius, 0, Math.PI * 2)
   context.fill()
   context.closePath()
@@ -228,6 +228,7 @@ function Missile (xCoord, yCoord, rotation) {
   this.yCoord = yCoord;
   this.rotation = rotation;
   this.frames = 0;
+  this.radius = 5;
 }
 
 var missiles = []

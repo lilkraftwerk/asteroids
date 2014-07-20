@@ -3,3 +3,7 @@ canvas {
   border: 1px solid black;
   background-image:url('img/starfield.jpg');
 }
+
+#hidden-images {
+  display:none;
+}
