@@ -28,6 +28,29 @@ function drawRectangle(xCoord, yCoord, width, height){
   context.closePath()
 }
 
+function drawSpaceshipImage(xCoord, yCoord, rotation) {
+  context.save()
+  var img = document.getElementById("spaceship");
+  var shipHeight = 26
+  var shipWidth = 35
+  var transx = xCoord + 13
+  var transy = yCoord + 13
+  context.translate(transx, transy)
+
+  context.rotate((Math.PI / 180) * rotation)
+  context.translate(-transx, -transy)
+  context.beginPath()
+  // context.fillStyle = "#FF0000"
+  // context.moveTo(xCoord, yCoord)
+  // context.lineTo(xCoord, yCoord + shipHeight)
+  // context.lineTo(xCoord + shipWidth, yCoord + (shipHeight / 2))
+  // context.fill()
+  context.drawImage(img,xCoord, yCoord-10)
+
+  context.closePath()
+  context.restore()
+}
+
 function drawMissile(missile){
   context.beginPath()
   context.fillStyle = "#00FF00"
@@ -46,7 +69,7 @@ function drawAsteroidOld() {
 
 function drawAsteroid(xCoord, yCoord, radius) {
   context.beginPath()
-  context.fillStyle = "#000000"
+  context.fillStyle = "#FF00FF"
   context.arc(xCoord, yCoord, radius, 0, Math.PI * 2)
   context.fill()
   context.closePath()
@@ -88,7 +111,7 @@ function drawInterval(){
     drawAsteroid(400, 400, 46);
     drawRectangle(x, y, width, height);
     missileLoop()
-    drawShip(spaceShip.xCoord, spaceShip.yCoord, spaceShip.rotation);
+    drawSpaceshipImage(spaceShip.xCoord, spaceShip.yCoord, spaceShip.rotation);
     checkRotation()
     missileCooldown -= 1
     checkMove()
@@ -101,11 +124,13 @@ var missileLoop = function(){
    for(i = 0; i < missiles.length; i++){
     moveMissile(missiles[i])
     drawMissile(missiles[i])
-     if(missiles[i].frames < 400){
-      validMissiles.push(missiles[i])
     }
-  missiles = validMissiles
+    for(i=0; i < missiles.length; i++){
+      if(missiles[i].frames < 400){
+        validMissiles.push(missiles[i])
+      }
     }
+    missiles = validMissiles
   }
 
 
@@ -166,7 +191,8 @@ var missiles = []
 var fireMissile = function(){
   if(missileCooldown <= 0){
   missiles.push(new Missile(spaceShip.xCoord + 17, spaceShip.yCoord + 13, spaceShip.rotation))
-  missileCooldown = 100
+
+  missileCooldown = 50
   }
 }
 
@@ -174,7 +200,6 @@ var fireMissile = function(){
 $('document').ready(function(){
   drawInterval()
   $('body').on("keydown", function(event) {
-    console.log(event.which)
     if (event.which == 37) {
       rotateLeft = true
       rotateRight = false
@@ -182,10 +207,8 @@ $('document').ready(function(){
       rotateRight = true
       rotateLeft = false
     } else if (event.which == 38) {
-      console.log("key up pressed")
       moveForward = true
     } else if (event.which == 32) {
-      console.log("space key")
       fireMissile()
     }
 
@@ -193,7 +216,6 @@ $('document').ready(function(){
 
   })
   $('body').on("keyup", function(event) {
-    console.log(event.which)
     if (event.which == 37) {
       rotateLeft = false
     } else if (event.which == 39){
